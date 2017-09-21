@@ -10,7 +10,7 @@ class Navi extends React.Component {
           </a>
         </li>
         <li>
-          <a href="/greeting/Ste">
+          <a href="/">
             Ste
           </a>
         </li>

@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
- 
-import Navi from './Navi.jsx';
- 
-// App component - represents the whole app
-export default class App extends Component {
+import { Meteor } from 'meteor/meteor';
+import React from 'react';
 
-  render() {
-    return (
-      <div className="container">
-        <header>
-          <h1>Commander Keen</h1>
-        </header>
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Navi from '../components/Navi';
+
+export default class App extends React.Component {
+  render(){
+    return(
+      <div>
+        <Header />
         <Navi />
+        <Footer />
       </div>
-    );
+    )
   }
 }
