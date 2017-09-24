@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
-export default class Header extends React.Component {
+export default class Footer extends React.Component {
   render () {
     return (
-      <div>Header</div>
+      	<h1>Footer</h1>
     );
   }
 }
