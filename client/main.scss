@@ -1,6 +1,13 @@
 /* CSS declarations go here */
-	
-@import url("https://unpkg.com/react-md/dist/react-md.blue-red.min.css");
+
+@import '../node_modules/react-md/src/scss/react-md';
+
+$md-light-theme: true; // optional for light theme
+$md-primary-color: $md-light-blue-500;
+$md-secondary-color: $md-deep-orange-a-200;
+
+@include react-md-everything;	
+
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons|Roboto:400,500,700");
 
 
@@ -33,4 +40,11 @@
 	.md-grid--40-16 {
 	    padding: 8px;
 	}
+}
+
+
+.floatingbutton {
+	position: fixed;
+  bottom: 24px;
+  right: 24px;
 }

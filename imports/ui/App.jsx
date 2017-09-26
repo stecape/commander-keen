@@ -47,7 +47,7 @@ export default class App extends PureComponent {
         navItems={this.navItems}
         mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
         tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-        desktopDrawerType={NavigationDrawer.DrawerTypes.FULL_HEIGHT}
+        desktopDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
         temporaryIcon={<FontIcon>menu</FontIcon>}
         persistentIcon={<FontIcon>arrow_back</FontIcon>}
       >

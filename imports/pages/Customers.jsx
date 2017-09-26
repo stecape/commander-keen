@@ -9,8 +9,10 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader';
 import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
+import Button from 'react-md/lib/Buttons/Button';
 
 import { Customers } from '../api/customers.js';
+
 
 class CustomersList extends PureComponent  {
   constructor(props){
@@ -29,21 +31,24 @@ class CustomersList extends PureComponent  {
 
   render() {
     return (
-      <div className="md-grid--40-16">
-        <Card tableCard>
-          <DataTable baseId="customers-table">
-            <TableHeader>
-              <TableRow>
-                <TableColumn>Name</TableColumn>
-                <TableColumn>Email</TableColumn>
-                <TableColumn>Address</TableColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {this.renderCustomers()}
-            </TableBody>
-          </DataTable>
-        </Card>
+      <div>
+        <div className="md-grid--40-16">
+          <Card tableCard>
+            <DataTable baseId="customers-table">
+              <TableHeader>
+                <TableRow>
+                  <TableColumn>Name</TableColumn>
+                  <TableColumn>Email</TableColumn>
+                  <TableColumn>Address</TableColumn>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {this.renderCustomers()}
+              </TableBody>
+            </DataTable>
+          </Card>
+        </div>
+        <Button secondary floating className='floatingbutton'>add</Button>
       </div>
     );
   }
