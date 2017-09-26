@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React, { PureComponent } from 'react';
 import NavigationDrawer from 'react-md/lib/NavigationDrawers';
-import ListItems from './Header/ListItems';
+import ListItems from './Navi/ListItems';
 import FontIcon from 'react-md/lib/FontIcons';
 
 export default class App extends PureComponent {
@@ -51,7 +51,7 @@ export default class App extends PureComponent {
         temporaryIcon={<FontIcon>menu</FontIcon>}
         persistentIcon={<FontIcon>arrow_back</FontIcon>}
       >
-        <section className="md-text-container">
+        <section>
           <main>
             {this.props.content}
           </main>

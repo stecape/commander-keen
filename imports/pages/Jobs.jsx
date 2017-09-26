@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
  
 import { Jobs } from '../api/jobs.js';
@@ -24,10 +24,6 @@ class JobsList extends Component {
     );
   }
 }
-
-Jobs.propTypes = {
-  jobs: PropTypes.array.isRequired,
-};
 
 export default createContainer(() => {
   return {

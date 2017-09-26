@@ -9,11 +9,12 @@
     "constants": "0.0.2",
     "icons": "^0.1.1",
     "material-design-fonticons": "^1.0.0",
-    "meteor-node-stubs": "~0.2.4",
+    "meteor-node-stubs": "^0.2.11",
     "react": "^15.6.1",
     "react-addons-pure-render-mixin": "^15.6.0",
     "react-dom": "^15.6.1",
     "react-md": "^1.1.4",
-    "react-mounter": "^1.2.0"
+    "react-mounter": "^1.2.0",
+    "uuid": "^3.1.0"
   }
 }
