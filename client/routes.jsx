@@ -7,26 +7,29 @@ import CustomersList from '../imports/pages/Customers';
 import JobsList from '../imports/pages/Jobs';
 
 FlowRouter.route("/", {
-  action() {
+  action: function () {
     mount(App, {
         content: (<Home/>)
     });
-  }
+  },
+  name: 'home'
 });
 
 
 FlowRouter.route("/customers/", {
-  action() {
+  action: function () {
     mount(App, {
         content: (<CustomersList/>)
     });
-  }
+  },
+  name: 'customers'
 });
 
 FlowRouter.route("/jobs/", {
-  action() {
+  action: function () {
     mount(App, {
         content: (<JobsList/>)
     });
-  }
+  },
+  name: 'jobs'
 });

@@ -7,6 +7,12 @@ import FontIcon from 'react-md/lib/FontIcons';
 export default class App extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      key: ListItems.find(x => x.key == FlowRouter.getRouteName()).key,
+      page: ListItems.find(x => x.key == FlowRouter.getRouteName()).primaryText,
+    };
+    
     this.navItems = ListItems.map((item) => {
       if (item.divider) {
         return item;
@@ -15,13 +21,9 @@ export default class App extends PureComponent {
       return {
         ...item,
         onClick: () => this.setPage(item.key, item.primaryText, item.to),
+        active: item.key === ListItems.find(x => x.key == FlowRouter.getRouteName()).key, 
       };
     });
-
-    this.state = {
-      key: ListItems[0].key,
-      page: ListItems[0].primaryText,
-    };
   }
 
   setPage = (key, page, to) => {
