@@ -13,7 +13,6 @@ import Button from 'react-md/lib/Buttons/Button';
 
 import { Customers } from '../api/customers.js';
 
-
 class CustomersList extends PureComponent  {
   constructor(props){
     super(props);
@@ -34,7 +33,7 @@ class CustomersList extends PureComponent  {
       <div>
         <div className="md-grid--40-16">
           <Card tableCard>
-            <DataTable baseId="customers-table">
+            <DataTable baseId="customers-table"  onRowToggle={this.props.check}>
               <TableHeader>
                 <TableRow>
                   <TableColumn>Name</TableColumn>
@@ -55,7 +54,26 @@ class CustomersList extends PureComponent  {
 }
 
 export default CustomersListContainer = withTracker (() => {
-  return {
+
+  state = {
     customers: Customers.find({}).fetch(),
+    selectedRows: Customers.find({}).fetch().map(() => false),
+    count: 0,
+  }
+
+  check = (row, selected, count) => {
+    let selectedRows = this.state.selectedRows.slice();
+    if (row === 0) {
+      selectedRows = selectedRows.map(() => selected);
+    } else {
+      selectedRows[row - 1] = selected;
+    }
+    this.setState({ selectedRows: selectedRows});
+    this.setState({ count: count});
+  }
+
+  return {
+    customers: this.state.customers,
+    check: check
   };
 })(CustomersList);

@@ -21,5 +21,5 @@ export default [{
   key: 'times',
   primaryText: 'Times',
   leftIcon: <FontIcon>schedule</FontIcon>,
-  to: '/',
+  to: '/times',
 }];
