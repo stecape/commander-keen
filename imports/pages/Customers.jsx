@@ -12,6 +12,7 @@ import Button from 'react-md/lib/Buttons/Button';
 
 import { Customers } from '../api/customers.js';
 import TableActions from './Customers/TableActions';
+import RemoveDialog from './Customers/RemoveDialog';
 
 
 
@@ -22,6 +23,7 @@ class CustomersList extends PureComponent  {
     this.state = { 
       count: 0,
       customers: [],
+      dialogVisible: false
     };
   }
 
@@ -44,15 +46,26 @@ class CustomersList extends PureComponent  {
       customers[row - 1].selected = selected;
     }
 
-    this.setState({customers: customers});  
+    this.setState({customers: customers});
     this.setState({count: count});
 
   }
 
+
   remove = () => {
     let customersToBeRemoved = this.state.customers.filter(customer => customer.selected)
-    this.props.deleteSelected(customersToBeRemoved)
+    customersToBeRemoved.map(customer => Customers.remove({_id: customer._id}))
+    
+    this.setState({count: 0})
   }
+
+  showRemoveDialog = () => {
+    this.setState({ dialogVisible: true });
+  };
+
+  hideRemoveDialog = () => {
+    this.setState({ dialogVisible: false });
+  };
 
   render() {
     return (
@@ -61,9 +74,9 @@ class CustomersList extends PureComponent  {
           <Card tableCard>
             <TableActions
               count={this.state.count}
-              onRemoveClick={this.remove}
+              onRemoveClick={this.showRemoveDialog}
             />
-            <DataTable baseId="customers-table"  onRowToggle={this.check}>
+            <DataTable baseId="customers-table" onRowToggle={this.check}>
               <TableHeader>
                 <TableRow>
                   <TableColumn>Name</TableColumn>
@@ -75,6 +88,11 @@ class CustomersList extends PureComponent  {
                 {this.renderCustomers()}
               </TableBody>
             </DataTable>
+            <removeDialog
+              addDesserts={this.remove}
+              onHide={this.hideRemoveDialog}
+              visible={dialogVisible}
+            />
           </Card>
         </div>
         <Button secondary floating className='floatingbutton'>add</Button>
@@ -86,11 +104,7 @@ class CustomersList extends PureComponent  {
 
 export default CustomersListContainer = withTracker (() => {
 
-  deleteSelected = (customersList) => customersList.map(customer => Customers.remove({_id: customer._id}))
-
   return {
-    customers: Customers.find({}, { sort: { name: 1 } }).fetch().map((customer) => {return {...customer, selected: false}}),
-    count: 0,
-    deleteSelected: deleteSelected
+    customers: Customers.find({}, { sort: { name: 1 } }).fetch().map((customer) => {return {...customer, selected: false}})
   };
 })(CustomersList);
