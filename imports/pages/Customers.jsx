@@ -16,14 +16,14 @@ import RemoveDialog from './Customers/RemoveDialog';
 
 
 
-
 class CustomersList extends PureComponent  {
   constructor(props){
     super(props);
     this.state = { 
       count: 0,
       customers: [],
-      dialogVisible: false
+      dialogVisible: false,
+      addVisible: false
     };
   }
 
@@ -52,20 +52,33 @@ class CustomersList extends PureComponent  {
   }
 
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.customers && this.props.customers !== nextProps.customers) {
+      this.setState({ count: 0 });
+    }
+  }
+
   remove = () => {
     let customersToBeRemoved = this.state.customers.filter(customer => customer.selected)
-    customersToBeRemoved.map(customer => Customers.remove({_id: customer._id}))
-    
-    this.setState({count: 0})
+    customersToBeRemoved.map(customer => Customers.remove({_id: customer._id}))   
+    this.hideRemoveDialog()
   }
 
   showRemoveDialog = () => {
-    this.setState({ dialogVisible: true });
-  };
+    this.setState({ dialogVisible: true })
+  }
 
   hideRemoveDialog = () => {
-    this.setState({ dialogVisible: false });
-  };
+    this.setState({ dialogVisible: false })
+  }
+
+  showAddDialog = () => {
+    this.setState({ addVisible: true })
+  }
+
+  hideAddDialog = () => {
+    this.setState({ addVisible: false })
+  }
 
   render() {
     return (
@@ -88,14 +101,19 @@ class CustomersList extends PureComponent  {
                 {this.renderCustomers()}
               </TableBody>
             </DataTable>
-            <removeDialog
-              addDesserts={this.remove}
+            <RemoveDialog
+              onRemove={this.remove}
               onHide={this.hideRemoveDialog}
-              visible={dialogVisible}
+              visible={this.state.dialogVisible}
+            />
+            <AddDialog
+              onAdd={this.add}
+              onHide={this.hideAddDialog}
+              visible={this.state.addVisible}
             />
           </Card>
         </div>
-        <Button secondary floating className='floatingbutton'>add</Button>
+        <Button secondary floating onClick={this.showAddDialog} className='floatingbutton'>add</Button>
       </div>
     );
   }

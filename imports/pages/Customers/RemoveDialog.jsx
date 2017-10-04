@@ -1,67 +1,27 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import Button from 'react-md/lib/Buttons/Button';
 import DialogContainer from 'react-md/lib/Dialogs';
-import Toolbar from 'react-md/lib/Toolbars';
-
-import FormGroup from './FormGroup';
 
 export default class RemoveDialog extends PureComponent {
 
-  state = { count: 1 };
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.visible && this.props.visible !== nextProps.visible) {
-      this.setState({ count: 1 });
-    }
+  constructor(props){
+    super(props);
   }
 
-  Remove = () => {
-    return {}
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.Remove(e);
-  };
-
   render() {
-    const { visible, onHide } = this.props;
-
-    const groups = [...new Array(this.state.count)].map((_, i) => (
-      <FormGroup key={i} index={i} />
-    ));
+    const actions = [];
+    actions.push({ children: 'CANCEL', onClick: this.props.onHide });
+    actions.push(<Button flat secondary onClick={this.props.onRemove}>DELETE</Button>);
 
     return (
       <DialogContainer
-        id="add-desserts-dialog"
-        aria-labelledby="add-desserts-dialog-title"
-        visible={visible}
-        onHide={onHide}
-        fullPage
-      >
-        <CSSTransitionGroup
-          id="add-dessert-form"
-          component="form"
-          onSubmit={this.handleSubmit}
-          className="md-text-container md-toolbar--relative"
-          transitionName="md-cross-fade"
-          transitionEnterTimeout={300}
-          transitionLeave={false}
-        >
-          <Toolbar
-            nav={<Button icon onClick={onHide}>arrow_back</Button>}
-            title="Create a new Dessert"
-            titleId="add-desserts-dialog-title"
-            fixed
-            colored
-            actions={<Button type="submit" flat>Submit</Button>}
-          />
-          {groups}
-        </CSSTransitionGroup>
-        <Button floating fixed onClick={this.Remove} primary>add</Button>
-      </DialogContainer>
+        id="remove-dialog"
+        aria-labelledby="remove-dialog-title"
+        visible={this.props.visible}
+        onHide={this.props.onHide}
+        title="Are you sure about removing selected customers?"
+        actions={actions}
+      />
     );
   }
 }
