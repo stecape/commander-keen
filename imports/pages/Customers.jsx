@@ -13,6 +13,8 @@ import Button from 'react-md/lib/Buttons/Button';
 import { Customers } from '../api/customers.js';
 import TableActions from './Customers/TableActions';
 import RemoveDialog from './Customers/RemoveDialog';
+import AddDialog from './Customers/AddDialog';
+import Filter from './Customers/Filter';
 
 
 
@@ -64,6 +66,15 @@ class CustomersList extends PureComponent  {
     this.hideRemoveDialog()
   }
 
+  add = (e) => {
+    let customer = {}
+    customer.name = e.target.elements.name.value
+    customer.email = e.target.elements.email.value
+    customer.address = e.target.elements.address.value
+    Customers.insert({name: customer.name, email: customer.email, address: customer.address})
+    this.hideAddDialog()
+  }
+
   showRemoveDialog = () => {
     this.setState({ dialogVisible: true })
   }
@@ -89,6 +100,7 @@ class CustomersList extends PureComponent  {
               count={this.state.count}
               onRemoveClick={this.showRemoveDialog}
             />
+            <Filter/>
             <DataTable baseId="customers-table" onRowToggle={this.check}>
               <TableHeader>
                 <TableRow>

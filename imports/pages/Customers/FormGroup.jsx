@@ -19,8 +19,8 @@ export default class FormGroup extends PureComponent {
   render() {
 
     return (
-      <section className="md-grid" aria-labelledby={`addCustomer-title`}>
-        <h2 id={`addCustomer-group-${index + 1}-title`} className="md-cell md-cell--12">
+      <section className="md-grid--40-16" aria-labelledby={`addCustomer-title`}>
+        <h2 id={`addCustomer-title`} className="md-cell md-cell--12">
           {`Add Customer`}
         </h2>
         <TextField
@@ -30,7 +30,7 @@ export default class FormGroup extends PureComponent {
           customSize="title"
           defaultValue=""
           placeholder="Name"
-          className="md-cell"
+          className="md-cell--12"
         />
         <TextField
           id={`customer-email`}
@@ -39,16 +39,16 @@ export default class FormGroup extends PureComponent {
           label="Email"
           defaultValue=""
           placeholder="name.surname@email.com"
-          className="md-cell md-cell--bottom"
+          className="md-cell--12 md-cell--bottom"
         />
         <TextField
           id={`customer-address`}
           name={`address`}
-          type="address"
+          type="text"
           label="Address"
           defaultValue=""
           placeholder="Enter Address"
-          className="md-cell"
+          className="md-cell--12 md-cell--bottom"
         />
       </section>
     );

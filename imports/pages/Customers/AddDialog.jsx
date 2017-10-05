@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import Button from 'react-md/lib/Buttons/Button';
 import DialogContainer from 'react-md/lib/Dialogs';
@@ -11,7 +10,7 @@ export default class AddDialog extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.addCustomer(e);
+    this.props.onAdd(e);
   };
 
   render() {
@@ -33,12 +32,12 @@ export default class AddDialog extends PureComponent {
           transitionLeave={false}
         >
           <Toolbar
-            nav={<Button icon onClick={this.props.onHide}>arrow_back</Button>}
+            nav={<Button name="button" icon onClick={this.props.onHide}>arrow_back</Button>}
             title="Add a new Customer"
             titleId="add-desserts-dialog-title"
             fixed
             colored
-            actions={<Button type="submit" flat>Submit</Button>}
+            actions={<Button name="button" type="submit" flat>Submit</Button>}
           />
           <FormGroup/>
         </CSSTransitionGroup>
