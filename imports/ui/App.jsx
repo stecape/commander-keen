@@ -4,6 +4,8 @@ import NavigationDrawer from 'react-md/lib/NavigationDrawers';
 import ListItems from './Navi/ListItems';
 import FontIcon from 'react-md/lib/FontIcons';
 
+import AccountsUIWrapper from './Navi/AccountsUIWrapper/AccountsUIWrapper.jsx';
+
 export default class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -53,6 +55,7 @@ export default class App extends PureComponent {
       >
         <section>
           <main>
+            <AccountsUIWrapper />
             {this.props.content}
           </main>
         </section>

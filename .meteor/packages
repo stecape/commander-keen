@@ -25,3 +25,6 @@ react-meteor-data
 
 npm-container
 fourseven:scss
+accounts-ui
+accounts-google
+service-configuration
