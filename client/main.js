@@ -11,6 +11,7 @@ Meteor.startup(() => {
     requestPermissions: {
       google: [
           'https://www.googleapis.com/auth/contacts',
+          'https://www.google.com/m8/feeds/'
       ]
     },
 	  requestOfflineToken: {

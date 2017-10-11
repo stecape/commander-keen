@@ -9,7 +9,7 @@ export default class Filter extends PureComponent  {
 
   render() {
     return (
-    	<div>hello!</div>
+    	<div>FILTER</div>
     )
   }
 }

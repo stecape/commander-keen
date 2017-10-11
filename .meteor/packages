@@ -28,3 +28,5 @@ fourseven:scss
 accounts-ui@1.1.9
 accounts-google@1.2.0
 service-configuration@1.0.11
+percolate:google-api
+long:google-contacts

@@ -11,6 +11,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import Button from 'react-md/lib/Buttons/Button';
 
 import { Customers } from '../api/customers.js';
+import { Contacts } from '../api/contacts.js';
 import TableActions from './Customers/TableActions';
 import RemoveDialog from './Customers/RemoveDialog';
 import AddDialog from './Customers/AddDialog';
@@ -136,5 +137,5 @@ export default CustomersListContainer = withTracker (() => {
 
   return {
     customers: Customers.find({}, { sort: { name: 1 } }).fetch().map((customer) => {return {...customer, selected: false}})
-  };
+  }
 })(CustomersList);

@@ -6,7 +6,6 @@ export default [{
   primaryText: 'Home',
   leftIcon: <FontIcon>home</FontIcon>,
   to: '/',
-  active: true,
 }, {
   key: 'customers',
   primaryText: 'Customers',
