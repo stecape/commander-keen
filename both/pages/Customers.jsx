@@ -9,6 +9,7 @@ import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import Button from 'react-md/lib/Buttons/Button';
+import { Grid, Cell } from 'react-md';
 
 import { Customers } from '../api/customers.js';
 import { Contacts } from '../api/contacts.js';
@@ -26,19 +27,29 @@ class CustomersList extends PureComponent  {
       count: 0,
       customers: [],
       dialogVisible: false,
-      addVisible: false
+      addVisible: false,
+      criterio: ""
     };
+
+    this.TEST = this.TEST.bind(this);
   }
 
-  renderCustomers() {
-    return this.props.customers.map((customer) => ( 
-        <TableRow key={customer._id}>
-          <TableColumn grow>{customer.name}</TableColumn>
-          <TableColumn>{customer.email}</TableColumn>
-          <TableColumn>{customer.address}</TableColumn>
-        </TableRow>
-    ));
+  TEST(testo){
+    this.setState({ criterio: testo })
   }
+  renderCustomers() {
+    return this.props.customers.map((customer) => { 
+      if (this.state.criterio == "" || customer.name.indexOf(this.state.criterio)>=0 || customer.email.indexOf(this.state.criterio)>=0 || customer.address.indexOf(this.state.criterio)>=0) {
+        return ( 
+          <TableRow key={customer._id}>
+            <TableColumn grow>{customer.name}</TableColumn>
+            <TableColumn>{customer.email}</TableColumn>
+            <TableColumn>{customer.address}</TableColumn>
+          </TableRow>
+        )
+      }
+    });
+  }  
 
   check = (row, selected, count) => {
     
@@ -91,6 +102,7 @@ class CustomersList extends PureComponent  {
   hideAddDialog = () => {
     this.setState({ addVisible: false })
   }
+  
 
   render() {
     return (
@@ -101,7 +113,9 @@ class CustomersList extends PureComponent  {
               count={this.state.count}
               onRemoveClick={this.showRemoveDialog}
             />
-            <Filter/>
+            <div className="md-cell--2 md-cell--right">
+              <Filter TEST={this.TEST} />
+            </div>
             <DataTable baseId="customers-table" onRowToggle={this.check}>
               <TableHeader>
                 <TableRow>
@@ -135,7 +149,11 @@ class CustomersList extends PureComponent  {
 
 export default CustomersListContainer = withTracker (() => {
 
+  let customers = Customers
+    .find({}, { sort: { name: 1 } })
+    .fetch()
+    .map((customer) => {return {...customer, selected: false}})
   return {
-    customers: Customers.find({}, { sort: { name: 1 } }).fetch().map((customer) => {return {...customer, selected: false}})
+    customers: customers,
   }
 })(CustomersList);
