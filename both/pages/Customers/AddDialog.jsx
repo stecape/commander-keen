@@ -11,7 +11,7 @@ export default class AddDialog extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.onAdd(e);
-  };
+  }
 
   render() {
     return (
@@ -39,7 +39,12 @@ export default class AddDialog extends PureComponent {
             colored
             actions={<Button name="button" type="submit" flat>Submit</Button>}
           />
-          <FormGroup/>
+          <FormGroup
+            _id    = {this.props._id}
+            name    = {this.props.name}
+            email   = {this.props.email}
+            address = {this.props.address}
+          />
         </CSSTransitionGroup>
       </DialogContainer>
     );

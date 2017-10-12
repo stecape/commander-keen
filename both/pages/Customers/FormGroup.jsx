@@ -4,31 +4,22 @@ import TextField from 'react-md/lib/TextFields';
 export default class FormGroup extends PureComponent {
 
   constructor(props){
-    super(props);
-    this.state = {};
+    super(props)
   }  
 
-  componentWillMount() {
-    this.setState({
-      name: '',
-      email: '',
-      address: '',
-    });
-  }
-
   render() {
-
     return (
       <section className="md-grid--40-16" aria-labelledby={`addCustomer-title`}>
         <h2 id={`addCustomer-title`} className="md-cell md-cell--12">
           {`Add Customer`}
         </h2>
+        <input type="hidden" name="_id" value={this.props._id} />
         <TextField
           id={`customer-name`}
           name={`name`}
           label="Customer"
           customSize="title"
-          defaultValue=""
+          defaultValue={this.props.name}
           placeholder="Name"
           className="md-cell--12"
         />
@@ -37,7 +28,7 @@ export default class FormGroup extends PureComponent {
           name={`email`}
           type="email"
           label="Email"
-          defaultValue=""
+          defaultValue={this.props.email}
           placeholder="name.surname@email.com"
           className="md-cell--12 md-cell--bottom"
         />
@@ -46,7 +37,7 @@ export default class FormGroup extends PureComponent {
           name={`address`}
           type="text"
           label="Address"
-          defaultValue=""
+          defaultValue={this.props.address}
           placeholder="Enter Address"
           className="md-cell--12 md-cell--bottom"
         />

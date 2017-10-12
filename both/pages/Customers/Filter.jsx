@@ -9,7 +9,7 @@ export default class Filter extends PureComponent  {
   }
 
   promptChange = (testo, e) => {
-    this.props.TEST(testo)
+    this.props.filtr(testo)
   }
   render() {
     return (
