@@ -40,7 +40,7 @@ export default class AddDialog extends PureComponent {
             actions={<Button name="button" type="submit" flat>Submit</Button>}
           />
           <FormGroup
-            _id    = {this.props._id}
+            _id     = {this.props._id}
             name    = {this.props.name}
             email   = {this.props.email}
             address = {this.props.address}

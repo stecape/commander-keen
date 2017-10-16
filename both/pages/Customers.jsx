@@ -9,6 +9,7 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader'
 import TableBody from 'react-md/lib/DataTables/TableBody'
 import TableRow from 'react-md/lib/DataTables/TableRow'
 import TableColumn from 'react-md/lib/DataTables/TableColumn'
+import TablePagination from 'react-md/lib/DataTables/TablePagination'
 import Button from 'react-md/lib/Buttons/Button'
 import { Grid, Cell } from 'react-md'
 
@@ -33,47 +34,75 @@ class CustomersList extends PureComponent  {
       _id:           "",
       name:          "",
       email:         "",
-      address:       ""
+      address:       "",
     }
 
     this.filtr = this.filtr.bind (this)
   }
 
-  filtr = (testo) => this.setState ({ criterio: testo })
+  filtr = (testo) => {
+  	this.setState({ criterio: testo })
+  	this.setCustomers(testo, this.state.customers)
+	}
+
+	setCustomers = (testo, customers) => {
+		condition = (testo, customer) => {return (testo == "" || customer.name.indexOf(testo)>=0 || customer.email.indexOf(testo)>=0 || customer.address.indexOf(testo)>=0) }
+		let customersList = customers.map ( customer =>  {
+			customer.hide = !condition(testo, customer) 
+			return customer
+		})
+
+    let count = customers.filter(customer => customer.selected).length
+	  this.setState ({ customers: customersList })
+    this.setState({count: count })
+	}
 
   renderCustomers = () => {
-    return this.props.customers.map ( customer => { 
-      if (this.state.criterio == "" || customer.name.indexOf(this.state.criterio)>=0 || customer.email.indexOf(this.state.criterio)>=0 || customer.address.indexOf(this.state.criterio)>=0) {
-        return ( 
-          <TableRow key={customer._id}>
-            <TableColumn grow>{customer.name}</TableColumn>
-            <TableColumn>{customer.email}</TableColumn>
-            <TableColumn>{customer.address}</TableColumn>
-          </TableRow>
-        )
-      }
-    })
-  }  
 
-  check = (row, selected, count) => {
-    let customers = this.props.customers.slice()
+    return this.state.customers.map ( (customer) => {
+    	if (!customer.hide) {
+        	return ( 
+            <TableRow key={customer._id} selected={customer.selected}>
+              <TableColumn grow>{customer.name}</TableColumn>
+              <TableColumn>{customer.email}</TableColumn>
+              <TableColumn>{customer.address}</TableColumn>
+            </TableRow>
+          )
+    	  }
+    	}
+    )
+  } 
+
+  check = (row, selected) => {
+    let customers = this.state.customers
     if (row === 0) {
       customers = customers.map((customer) => {
-        customer.selected = selected
+				if (!customer.hide) customer.selected = selected
         return customer
       })
     } else {
-      customers[row - 1].selected = selected
+    	let conteggio = row -1
+    	customers = customers.map((customer) => {
+    		if (!customer.hide){ 
+    			if (conteggio == 0) customer.selected = selected
+    			conteggio--
+    		}
+    		return customer
+    	})
     }
 
-    this.setState({customers: customers})
-    this.setState({count: count})
+    let count = customers.filter(customer => customer.selected).length
+    this.setState({customers: customers })
+    this.setState({count: count })
 
   }
 
+  componentDidMount = () => {
+  	this.setCustomers(this.state.criterio, this.props.customers)
+  }
+
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.customers && this.props.customers !== nextProps.customers)
-      this.setState({ count: 0 })
+    if (this.props.customers && this.props.customers !== nextProps.customers) this.setCustomers(this.state.criterio, nextProps.customers)
   }
 
   remove = () => {
@@ -98,19 +127,12 @@ class CustomersList extends PureComponent  {
       {
         name: customer.name,
         email: customer.email,
-        address: customer.address
+        address: customer.address,
       },
       {
         upsert: true
       }
     )
-    this.setState ({ 
-      _id:        "",
-      name:       "",
-      email:      "",
-      address:    "",
-      addVisible: true
-    })    
     this.hideAddDialog()
   }
 
@@ -120,7 +142,14 @@ class CustomersList extends PureComponent  {
 
   showAddDialog    = () => this.setState ({ addVisible: true     })
 
-  hideAddDialog    = () => this.setState ({ addVisible: false    })
+  hideAddDialog    = () => 
+    this.setState ({ 
+      _id:        "",
+      name:       "",
+      email:      "",
+      address:    "",
+      addVisible: false
+  })    
 
   showEditDialog    = () => {
     let selectedCustomer = this.state.customers.filter(customer => customer.selected)[0]
@@ -192,14 +221,16 @@ class CustomersList extends PureComponent  {
 
 export default CustomersListContainer = withTracker (() => {
 
-  let customers = Customers
-    .find({}, { sort: { name: 1 } })
-    .fetch()
-    .map((customer) => {return {...customer, selected: false}})
 
 
+  this.state = {
+  	customers: Customers
+    	.find({}, { sort: { name: 1 } })
+    	.fetch()
+  }
 
   return {
-    customers: customers,
+    customers: this.state.customers,
+    items: this.state.customers.length
   }
 })(CustomersList)
