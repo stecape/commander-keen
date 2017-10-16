@@ -9,12 +9,9 @@ import TableHeader from 'react-md/lib/DataTables/TableHeader'
 import TableBody from 'react-md/lib/DataTables/TableBody'
 import TableRow from 'react-md/lib/DataTables/TableRow'
 import TableColumn from 'react-md/lib/DataTables/TableColumn'
-import TablePagination from 'react-md/lib/DataTables/TablePagination'
 import Button from 'react-md/lib/Buttons/Button'
-import { Grid, Cell } from 'react-md'
 
 import { Customers } from '../api/customers.js'
-import { Contacts } from '../api/contacts.js'
 import TableActions from './Customers/TableActions'
 import RemoveDialog from './Customers/RemoveDialog'
 import AddDialog from './Customers/AddDialog'
@@ -219,7 +216,7 @@ class CustomersList extends PureComponent  {
 }
 
 
-export default CustomersListContainer = withTracker (() => {
+export default withTracker (() => {
 
 
 
@@ -230,7 +227,6 @@ export default CustomersListContainer = withTracker (() => {
   }
 
   return {
-    customers: this.state.customers,
-    items: this.state.customers.length
+    customers: this.state.customers
   }
 })(CustomersList)

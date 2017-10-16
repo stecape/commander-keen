@@ -16,14 +16,14 @@ export default class AddDialog extends PureComponent {
   render() {
     return (
       <DialogContainer
-        id="add-customers-dialog"
-        aria-labelledby="add-customers-dialog-title"
+        id="add-jobs-dialog"
+        aria-labelledby="add-jobs-dialog-title"
         visible={this.props.visible}
         onHide={this.props.onHide}
         fullPage
       >
         <CSSTransitionGroup
-          id="add-customers-form"
+          id="add-jobs-form"
           component="form"
           onSubmit={this.handleSubmit}
           className="md-text-container md-toolbar--relative"
@@ -33,17 +33,18 @@ export default class AddDialog extends PureComponent {
         >
           <Toolbar
             nav={<Button name="button" icon onClick={this.props.onHide}>arrow_back</Button>}
-            title="Add a new Customer"
-            titleId="add-customers-dialog-title"
+            title="Add a new Job"
+            titleId="add-jobs-dialog-title"
             fixed
             colored
             actions={<Button name="button" type="submit" flat>Submit</Button>}
           />
           <FormGroup
-            _id     = {this.props._id}
-            name    = {this.props.name}
-            email   = {this.props.email}
-            address = {this.props.address}
+            _id         = {this.props._id}
+            customer_id = {this.props.customer_id}
+            description = {this.props.description}
+            address     = {this.props.address}
+            customers   = {this.props.customers}
           />
         </CSSTransitionGroup>
       </DialogContainer>
