@@ -124,6 +124,7 @@ class JobsList extends PureComponent  {
   }
 
   add = (e) => {
+    console.log(e.target.elements)
     let job        = {}
     job._id        = new Mongo.ObjectID(e.target.elements._id.value)
     job.customer_id= e.target.elements.customer_id.value

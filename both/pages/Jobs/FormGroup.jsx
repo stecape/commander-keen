@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import TextField from 'react-md/lib/TextFields';
 import { Autocomplete, SelectField } from 'react-md'; 
+import { Mongo } from 'meteor/mongo';
 
 export default class FormGroup extends PureComponent {
 
@@ -8,28 +9,28 @@ export default class FormGroup extends PureComponent {
     super(props)
   }  
 
-  data = this.props.customers.map((customer) => {return { dataValue: customer._id.toString(), dataLabel: customer.name }} )
-  defVal = this.props.customers.filter((customer) => {customer._id == this.props.customer_id})
-  
-  defVal = defVal[0].name
+
 
   render() {
-    console.log(this.data, this.defVal)
+    data = this.props.customers.map((customer) => {return { label: customer.name, value: customer._id.toString() }} )
+    console.log(data)
     return (
-      <section className="md-grid--40-16" aria-labelledby={`addCustomer-title`}>
-        <h2 id={`addCustomer-title`} className="md-cell md-cell--12">
+      <section className="md-grid--40-16" aria-labelledby={`addJob-title`}>
+        <h2 id={`addJob-title`} className="md-cell md-cell--12">
           {`Add Job`}
         </h2>
-        <input type="hidden" name="_id" value={this.props._id} />
+        <input type="hidden" id="_id" name="_id" value={this.props._id} />
         <Autocomplete
-          id          = {`customer-name`}
-          name        = {`name`}
+          id          = {`customer-id`}
+          name        = {`customer-id`}
           label       = "Customer Name"
           customSize  = "title"
-          defaultValue= {this.defVal}
+          defaultValue= ""
           placeholder = "Customer Name"
           className   = "md-cell--12"
-          data        = {this.data}
+          data        = {data}
+          dataLabel   = 'label'
+          dataValue   = 'value'
           filter      = {Autocomplete.caseInsensitiveFilter}
           autocompleteWithLabel
         />
