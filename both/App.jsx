@@ -69,7 +69,8 @@ export default AppContainer = withTracker (() => {
       return publicRoutes.indexOf( route ) > -1;
     },
     canView() {
-      return this.isPublic( FlowRouter.current().route.name ) || !!Meteor.user();
+      let USER = Meteor.user()
+      return this.isPublic( FlowRouter.current().route.name ) || ( !!Meteor.user() ? USER.services.google.id == "103049458898347661484" : false );
     }
   };
 })(App);

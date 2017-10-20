@@ -45,15 +45,16 @@ class JobsList extends PureComponent  {
 
   setJobs = (testo, jobs) => {
 
-    condition = (testo, jobs) => { return (
-      testo == ""                                 ||
-      this.props.customers.filter ( customer => 
-            customer._id == jobs.customer_id &&
-            customr.name.indexOf(testo)>=0
-          ).length >0                             ||
-      jobs.description.indexOf(testo)>=0          ||
-      jobs.address.indexOf(testo)>=0              ||
-      jobs.status.indexOf(testo)>=0
+    condition = (testo, job) => {
+      return (
+        this.props.customers.filter ( customer => 
+          ( customer._id._str == job.customer_id._str ) && 
+          ( customer.name.indexOf(testo) >= 0 )
+        ).length > 0                               ||
+        testo == ""                                ||
+        job.description.indexOf(testo)>=0          ||
+        job.address.indexOf(testo)>=0              ||
+        job.status.indexOf(testo)>=0
     )}
 
     let jobsList = jobs.map ( job => {

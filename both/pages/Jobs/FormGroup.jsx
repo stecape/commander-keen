@@ -12,7 +12,7 @@ export default class FormGroup extends PureComponent {
 
 
   render() {
-    data = this.props.customers.map((customer) => {return { label: customer.name, value: customer._id.toString() }} )
+    data = this.props.customers.map((customer) => {return { label: customer.name, value: customer._id._str }} )
     console.log(data)
     return (
       <section className="md-grid--40-16" aria-labelledby={`addJob-title`}>
@@ -23,6 +23,7 @@ export default class FormGroup extends PureComponent {
         <Autocomplete
           id          = {`customer-id`}
           name        = {`customer-id`}
+          filter      = {null}
           label       = "Customer Name"
           customSize  = "title"
           defaultValue= ""
@@ -32,7 +33,6 @@ export default class FormGroup extends PureComponent {
           dataLabel   = 'label'
           dataValue   = 'value'
           filter      = {Autocomplete.caseInsensitiveFilter}
-          autocompleteWithLabel
         />
         <TextField
           id          = {`job-description`}
