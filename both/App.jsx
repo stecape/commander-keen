@@ -33,7 +33,7 @@ class App extends Component {
         navItems={this.navItems}
         mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY_MINI}
         tabletDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
-        desktopDrawerType={NavigationDrawer.DrawerTypes.CLIPPED}
+        desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
         temporaryIcon={<FontIcon>menu</FontIcon>}
         persistentIcon={<FontIcon>arrow_back</FontIcon>}
         drawerHeaderChildren={<AccountsUIWrapper />}

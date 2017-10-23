@@ -1,41 +1,67 @@
 import React, { PureComponent } from 'react';
 import TextField from 'react-md/lib/TextFields';
-import { Autocomplete, SelectField } from 'react-md'; 
+import { Autocomplete } from 'react-md';
+import { SelectField } from 'react-md';
 import { Mongo } from 'meteor/mongo';
 
 export default class FormGroup extends PureComponent {
 
   constructor(props){
     super(props)
+    this.state = {
+      customerDefaultName: this.props.customer_id ? this.props.customers.filter((customer) => customer._id._str == this.props.customer_id._str)[0].name : "",
+      value: this.props.customer_id._str,
+      customerNameError: this.props.customerNameError
+    }
   }  
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.customerNameError !== this.state.customerNameError) {
+      this.setState({ customerNameError: nextProps.customerNameError });
+    }
+  }
 
+  selectCustomer = (value) => this.setState ( {value: value, customerNameError: false } )
 
   render() {
     data = this.props.customers.map((customer) => {return { label: customer.name, value: customer._id._str }} )
-    console.log(data)
+
     return (
+
       <section className="md-grid--40-16" aria-labelledby={`addJob-title`}>
         <h2 id={`addJob-title`} className="md-cell md-cell--12">
           {`Add Job`}
         </h2>
         <input type="hidden" id="_id" name="_id" value={this.props._id} />
         <Autocomplete
-          id          = {`customer-id`}
-          name        = {`customer-id`}
-          filter      = {null}
-          label       = "Customer Name"
-          customSize  = "title"
-          defaultValue= ""
-          placeholder = "Customer Name"
-          className   = "md-cell--12"
-          data        = {data}
-          dataLabel   = 'label'
-          dataValue   = 'value'
-          filter      = {Autocomplete.caseInsensitiveFilter}
+          id            = {`customer-list`}
+          name          = {`customer-list`}
+          filter        = {null}
+          label         = "Customer Name"
+          customSize    = "title"
+          defaultValue  = {this.state.customerDefaultName}
+          placeholder   = "Customer Name"
+          className     = "md-cell--12"
+          data          = {this.props.customers.map((customer) => {return { label: customer.name, value: customer._id._str }} )}
+          dataLabel     = 'label'
+          dataValue     = 'value'
+          filter        = {Autocomplete.caseInsensitiveFilter}
+          onAutocomplete= {this.selectCustomer}
         />
         <TextField
-          id          = {`job-description`}
+          id="customer_id"
+          name="customer_id"
+          label="Customer Id"
+          placeholder="Customer Id"
+          className="md-cell md-cell--top"
+          defaultValue={this.state.value}
+          value={this.state.value}
+          disabled
+          error={this.state.customerNameError}
+          errorText="Select a customer."
+        />
+        <TextField
+          id          = {`description`}
           name        = {`description`}
           type        = "text"
           label       = "Job Description"
@@ -44,7 +70,7 @@ export default class FormGroup extends PureComponent {
           className   = "md-cell--12 md-cell--bottom"
         />
         <TextField
-          id          = {`job-address`}
+          id          = {`address`}
           name        = {`address`}
           type        = "text"
           label       = "Address"
@@ -53,8 +79,9 @@ export default class FormGroup extends PureComponent {
           className   = "md-cell--12 md-cell--bottom"
         />
         <SelectField
-          id          = {`job-status`}
+          id          = {`status`}
           placeholder = {`status`}
+          defaultValue= {this.props.status}
           menuItems   = {['not started', 'finished', 'in progress']}
           className   = "md-cell--12 md-cell--bottom"
         />

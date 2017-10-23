@@ -8,9 +8,19 @@ import FormGroup from './FormGroup';
 
 export default class AddDialog extends PureComponent {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      customerNameError: false
+    }
+  }
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onAdd(e);
+    let actual_CustomerId = e.target.elements.customer_id.value
+    this.props.customers.filter((customer) => customer._id._str == actual_CustomerId).length > 0 ? 
+      this.props.onAdd(e)
+    :
+      this.setState({ customerNameError: true })
   }
 
   render() {
@@ -40,11 +50,13 @@ export default class AddDialog extends PureComponent {
             actions={<Button name="button" type="submit" flat>Submit</Button>}
           />
           <FormGroup
-            _id         = {this.props._id}
-            customer_id = {this.props.customer_id}
-            description = {this.props.description}
-            address     = {this.props.address}
-            customers   = {this.props.customers}
+            _id               = {this.props._id}
+            customer_id       = {this.props.customer_id}
+            description       = {this.props.description}
+            address           = {this.props.address}
+            status            = {this.props.status}
+            customers         = {this.props.customers}
+            customerNameError = {this.state.customerNameError}
           />
         </CSSTransitionGroup>
       </DialogContainer>

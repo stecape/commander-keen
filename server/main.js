@@ -1,5 +1,4 @@
 import '../both/api/customers.js';
-import '../both/api/contacts.js';
 import '../both/api/jobs.js';
 import { ServiceConfiguration } from 'meteor/service-configuration';
  

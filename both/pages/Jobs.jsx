@@ -125,10 +125,9 @@ class JobsList extends PureComponent  {
   }
 
   add = (e) => {
-    console.log(e.target.elements)
     let job        = {}
     job._id        = new Mongo.ObjectID(e.target.elements._id.value)
-    job.customer_id= e.target.elements.customer_id.value
+    job.customer_id= new Mongo.ObjectID(e.target.elements.customer_id.value)
     job.description= e.target.elements.description.value
     job.address    = e.target.elements.address.value
     job.status     = e.target.elements.status.value
@@ -141,7 +140,7 @@ class JobsList extends PureComponent  {
         customer_id: job.customer_id,
         description: job.description,
         address:     job.address,
-        address:     job.status,
+        status:     job.status,
       },
       {
         upsert: true
