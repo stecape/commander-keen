@@ -10,7 +10,14 @@ $md-secondary-color: $md-deep-orange-a-200;
 
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons|Roboto:400,500,700");
 
+.timeline {
+	width: calc(100vw - 325px);
+	min-width: 800px
+}
 
+.timetable {
+	height: 101%;
+}
 
 @media screen and (min-width: 320px){
 	.md-navigation-drawer-content {
