@@ -1,0 +1,51 @@
+.cp-flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+/* The box */
+.cp-box {
+    margin-top: 22px;
+}
+
+/* The container */
+.cp-container {
+    display: in-line;
+    position: relative;
+    padding-left: 56px;
+    padding-bottom: 56px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.cp-container input {
+    position: absolute;
+    opacity: 0;
+}
+
+/* Create a custom radio button */
+.cp-checkmark {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 56px;
+    width: 56px;
+}
+
+/* On mouse-over, add a grey background color */
+.cp-container:hover input ~ .cp-checkmark {
+    opacity: .6;
+}
+
+/* When the radio button is checked, add a blue background */
+.cp-container input:checked ~ .cp-checkmark {
+	border: solid #ccc 4px;
+}

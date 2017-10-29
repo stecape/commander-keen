@@ -33,6 +33,7 @@ class JobsList extends PureComponent  {
       description:   "",
       address:       "",
       status:        "",
+      color:         "",
     }
 
     this.filtr = this.filtr.bind (this)
@@ -54,7 +55,8 @@ class JobsList extends PureComponent  {
         testo == ""                                ||
         job.description.indexOf(testo)>=0          ||
         job.address.indexOf(testo)>=0              ||
-        job.status.indexOf(testo)>=0
+        job.status.indexOf(testo)>=0               ||
+        job.color.indexOf(testo)>=0
     )}
 
     let jobsList = jobs.map ( job => {
@@ -72,16 +74,18 @@ class JobsList extends PureComponent  {
 
     return this.state.jobs.map ( (job) => {
       if (!job.hide) {
-        return ( 
-          <TableRow key={job._id}>
-            <TableColumn>{job.customer_name}</TableColumn>
-            <TableColumn grow>{job.description}</TableColumn>
-            <TableColumn>{job.address}</TableColumn>
-            <TableColumn>{job.status}</TableColumn>
-          </TableRow>
-        )
+          return ( 
+            <TableRow key={job._id}>
+              <TableColumn>{job.customer_name}</TableColumn>
+              <TableColumn grow>{job.description}</TableColumn>
+              <TableColumn>{job.address}</TableColumn>
+              <TableColumn>{job.status}</TableColumn>
+              <TableColumn>{job.color}</TableColumn>
+            </TableRow>
+          )
+        }
       }
-    })
+    )
   } 
 
   check = (row, selected) => {
@@ -124,14 +128,7 @@ class JobsList extends PureComponent  {
     this.hideRemoveDialog()
   }
 
-  add = (e) => {
-    let job        = {}
-    job._id        = new Mongo.ObjectID(e.target.elements._id.value)
-    job.customer_id= new Mongo.ObjectID(e.target.elements.customer_id.value)
-    job.description= e.target.elements.description.value
-    job.address    = e.target.elements.address.value
-    job.status     = e.target.elements.status.value
-
+  add = (job) => {
     Jobs.update(
       {
         _id: job._id
@@ -140,7 +137,8 @@ class JobsList extends PureComponent  {
         customer_id: job.customer_id,
         description: job.description,
         address:     job.address,
-        status:     job.status,
+        status:      job.status,
+        color:       job.color,
       },
       {
         upsert: true
@@ -162,6 +160,7 @@ class JobsList extends PureComponent  {
       description:"",
       address:    "",
       status:     "",
+      color:      "",
       addVisible: false
   })    
 
@@ -174,6 +173,7 @@ class JobsList extends PureComponent  {
       description:selectedJob.description,
       address:    selectedJob.address,
       status:     selectedJob.status,
+      color:      selectedJob.color,
       addVisible: true
     })
   }
@@ -199,6 +199,7 @@ class JobsList extends PureComponent  {
                   <TableColumn>Job Description</TableColumn>
                   <TableColumn>Address</TableColumn>
                   <TableColumn>Job Status</TableColumn>
+                  <TableColumn>Color</TableColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -219,6 +220,7 @@ class JobsList extends PureComponent  {
               description= {this.state.description}
               address    = {this.state.address}
               status     = {this.state.status}
+              color      = {this.state.color}
               customers  = {this.props.customers}
             />
           </Card>

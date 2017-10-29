@@ -32,6 +32,7 @@ class CustomersList extends PureComponent  {
       name:          "",
       email:         "",
       address:       "",
+      color:         "",
     }
 
     this.filtr = this.filtr.bind (this)
@@ -43,7 +44,16 @@ class CustomersList extends PureComponent  {
 	}
 
 	setCustomers = (testo, customers) => {
-		condition = (testo, customer) => {return (testo == "" || customer.name.indexOf(testo)>=0 || customer.email.indexOf(testo)>=0 || customer.address.indexOf(testo)>=0) }
+
+		condition = (testo, customer) => {
+      return (
+        testo == ""                        ||
+        customer.name.indexOf(testo)>=0    ||
+        customer.email.indexOf(testo)>=0   || 
+        customer.address.indexOf(testo)>=0 ||
+        customer.color.indexOf(testo)>=0
+    )}
+
 		let customersList = customers.map ( customer =>  {
 			customer.hide = !condition(testo, customer) 
 			return customer
@@ -51,7 +61,7 @@ class CustomersList extends PureComponent  {
 
     let count = customers.filter(customer => customer.selected).length
 	  this.setState ({ customers: customersList })
-    this.setState({count: count })
+    this.setState ({ count:     count         })
 	}
 
   renderCustomers = () => {
@@ -63,6 +73,7 @@ class CustomersList extends PureComponent  {
               <TableColumn grow>{customer.name}</TableColumn>
               <TableColumn>{customer.email}</TableColumn>
               <TableColumn>{customer.address}</TableColumn>
+              <TableColumn>{customer.color}</TableColumn>
             </TableRow>
           )
     	  }
@@ -110,21 +121,16 @@ class CustomersList extends PureComponent  {
     this.hideRemoveDialog()
   }
 
-  add = (e) => {
-    let customer     = {}
-    customer._id     = new Mongo.ObjectID(e.target.elements._id.value)
-    customer.name    = e.target.elements.name.value
-    customer.email   = e.target.elements.email.value
-    customer.address = e.target.elements.address.value
-
+  add = (customer) => {
     Customers.update(
       {
         _id: customer._id
       },
       {
-        name: customer.name,
-        email: customer.email,
+        name:    customer.name,
+        email:   customer.email,
         address: customer.address,
+        color:   customer.color,
       },
       {
         upsert: true
@@ -145,6 +151,7 @@ class CustomersList extends PureComponent  {
       name:       "",
       email:      "",
       address:    "",
+      color:      "",
       addVisible: false
   })    
 
@@ -156,6 +163,7 @@ class CustomersList extends PureComponent  {
       name:       selectedCustomer.name,
       email:      selectedCustomer.email,
       address:    selectedCustomer.address,
+      color:      selectedCustomer.color,
       addVisible: true
     })
   }
@@ -180,6 +188,7 @@ class CustomersList extends PureComponent  {
                   <TableColumn>Name</TableColumn>
                   <TableColumn>Email</TableColumn>
                   <TableColumn>Address</TableColumn>
+                  <TableColumn>Color</TableColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -199,6 +208,7 @@ class CustomersList extends PureComponent  {
               name    = {this.state.name}
               email   = {this.state.email}
               address = {this.state.address}
+              color   = {this.state.color}
             />
           </Card>
         </div>
