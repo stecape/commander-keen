@@ -12,12 +12,13 @@ export default class AddDialog extends PureComponent {
     super(props)
     this.state = {
       customerNameError: false,
-      _id        : this.props._id,
-      customer_id: this.props.customer_id,
-      description: this.props.description,
-      address    : this.props.address,
-      status     : this.props.status,
-      color      : this.props.color
+      _id              : this.props._id,
+      customer_id      : this.props.customer_id,
+      customer_name    : this.props.customer_name,
+      description      : this.props.description,
+      address          : this.props.address,
+      status           : this.props.status,
+      color            : this.props.color
     }
   }
 
@@ -27,12 +28,13 @@ export default class AddDialog extends PureComponent {
     this.props.customers.filter((customer) => customer._id._str == actual_CustomerId).length > 0 ? 
       this.props.onAdd(
         {
-          _id        : this.state._id,
-          customer_id: this.state.customer_id,
-          description: this.state.description,
-          address    : this.state.address,
-          status     : this.state.status,
-          color      : this.state.color
+          _id          : this.state._id,
+          customer_id  : this.state.customer_id,
+          customer_name: this.state.customer_name,
+          description  : this.state.description,
+          address      : this.state.address,
+          status       : this.state.status,
+          color        : this.state.color
         }
       )
     :
@@ -70,6 +72,7 @@ export default class AddDialog extends PureComponent {
           <FormGroup
             _id                 = {this.props._id}
             customer_id         = {this.props.customer_id}
+            customer_name       = {this.props.customer_name}
             description         = {this.props.description}
             address             = {this.props.address}
             status              = {this.props.status}

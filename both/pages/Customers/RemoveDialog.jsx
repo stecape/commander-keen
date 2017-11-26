@@ -9,9 +9,19 @@ export default class RemoveDialog extends PureComponent {
   }
 
   render() {
+    let customers = []
+    customers.push ( this.props.customers.map ( customer => 
+      { return { key: customer._id, val: this.props.jobs.filter(job => job.customer_id == customer._id) } }
+    ) )
+
+    console.log(customers)
+
     const actions = [];
     actions.push({ children: 'CANCEL', onClick: this.props.onHide });
-    actions.push(<Button flat secondary onClick={this.props.onRemove}>DELETE</Button>);
+    //Questo se posso cancellare
+    //actions.push(<Button flat secondary onClick={this.props.onRemove(this.customers)}>DELETE</Button>);
+    //Qui ne metto un altro che sia disabilitato. 
+    //Deve apparire se non posso cancellare la voce perchè ha delle dipendenze.
 
     return (
       <DialogContainer

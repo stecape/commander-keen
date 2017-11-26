@@ -10,15 +10,15 @@ export default class FormGroup extends PureComponent {
   constructor(props){
     super(props)
     this.state = {
-      customerDefaultName: this.props.customer_id ? this.props.customers.filter((customer) => customer._id._str == this.props.customer_id._str)[0].name : "",
       value:               this.props.customer_id._str,
       customerNameError:   this.props.customerNameError,
       _id:                 this.props._id,
       customer_id:         this.props.customer_id,
+      customer_name:       this.props.customer_name,
       description:         this.props.description,
       address:             this.props.address,
       status:              this.props.status,
-      color:               this.props.color ? this.props.color : '#3366CC'
+      color:               this.props.color
     }
   }  
 
@@ -32,6 +32,7 @@ export default class FormGroup extends PureComponent {
     let values = {
       _id:                 this.state._id,
       customer_id:         this.state.customer_id,
+      customer_name:       this.state.customer_name,
       description:         this.state.description,
       address:             this.state.address,
       status:              this.state.status,
@@ -40,7 +41,16 @@ export default class FormGroup extends PureComponent {
     this.props.getValues(values)
   }
 
-  setCustomer    = (customer_id)=> this.setState ( { customer_id: customer_id, value: customer_id._str, customerNameError: false } )
+  setCustomer    = (customer_id)=> {
+    customer = this.props.customers.filter( customer => customer._id == customer_id )[0]
+    this.setState ( { 
+      customer_id: customer._id,
+      address: this.state.address == "" ? customer.address : this.state.address,
+      color: customer.color,
+      value: customer._id._str,
+      customerNameError: false 
+    } )
+  }
   setDescription = (description)=> this.setState ( { description: description } )
   setAddress     = (address)    => this.setState ( { address    : address     } )
   setStatus      = (status)     => this.setState ( { status     : status      } )
@@ -60,7 +70,7 @@ export default class FormGroup extends PureComponent {
           filter        = {null}
           label         = "Customer Name"
           customSize    = "title"
-          defaultValue  = {this.state.customerDefaultName}
+          defaultValue  = {this.state.customer_name}
           placeholder   = "Customer Name"
           className     = "md-cell--12"
           data          = {this.props.customers.map((customer) => {return { label: customer.name, value: customer._id }} )}
@@ -96,7 +106,8 @@ export default class FormGroup extends PureComponent {
           name          = {`address`}
           type          = "text"
           label         = "Address"
-          defaultValue  = {this.props.address}
+          defaultValue  = {this.state.address}
+          value         = {this.state.address}
           placeholder   = "Enter Address"
           className     = "md-cell--12 md-cell--bottom"
           onChange      = {this.setAddress}

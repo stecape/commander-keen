@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react';
 import TextField from 'react-md/lib/TextFields';
-
-
-
 import ColorPicker from '../../components/ColorPicker/ColorPicker';
 
 export default class FormGroup extends PureComponent {

@@ -12,6 +12,7 @@ import TableColumn from 'react-md/lib/DataTables/TableColumn'
 import Button from 'react-md/lib/Buttons/Button'
 
 import { Customers } from '../api/customers.js'
+import { Jobs } from '../api/jobs.js'
 import TableActions from './Customers/TableActions'
 import RemoveDialog from './Customers/RemoveDialog'
 import AddDialog from './Customers/AddDialog'
@@ -113,11 +114,8 @@ class CustomersList extends PureComponent  {
     if (this.props.customers && this.props.customers !== nextProps.customers) this.setCustomers(this.state.criterio, nextProps.customers)
   }
 
-  remove = () => {
-
-    let customersToBeRemoved = this.state.customers.filter(customer => customer.selected)
-    customersToBeRemoved.map(customer => Customers.remove({_id: customer._id}))
-
+  remove = (customers) => {
+    customers.map(customer => Customers.remove({_id: customer._id}))
     this.hideRemoveDialog()
   }
 
@@ -196,9 +194,11 @@ class CustomersList extends PureComponent  {
               </TableBody>
             </DataTable>
             <RemoveDialog
-              onRemove= {this.remove}
-              onHide  = {this.hideRemoveDialog}
-              visible = {this.state.dialogVisible}
+              onRemove = {this.remove}
+              onHide   = {this.hideRemoveDialog}
+              visible  = {this.state.dialogVisible}
+              jobs     = {this.props.jobs}
+              customers= {this.state.customers.filter(customer => customer.selected)}
             />
             <AddDialog
               onAdd   = {this.add}
@@ -233,10 +233,14 @@ export default withTracker (() => {
   this.state = {
   	customers: Customers
     	.find({}, { sort: { name: 1 } })
-    	.fetch()
+    	.fetch(),
+    jobs: Jobs
+      .find({}, { sort: { name: 1 } })
+      .fetch()
   }
 
   return {
-    customers: this.state.customers
+    customers: this.state.customers,
+    jobs:      this.state.jobs
   }
 })(CustomersList)

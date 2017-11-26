@@ -10,6 +10,8 @@ import TableBody from 'react-md/lib/DataTables/TableBody';
 import TableRow from 'react-md/lib/DataTables/TableRow';
 import TableColumn from 'react-md/lib/DataTables/TableColumn';
 import Button from 'react-md/lib/Buttons/Button';
+import FontIcon from 'react-md/lib/FontIcons';
+import Tooltipped from 'react-md';
 
 import { Jobs } from '../api/jobs.js';
 import { Customers } from '../api/customers.js';
@@ -30,6 +32,7 @@ class JobsList extends PureComponent  {
       criterio:      "",
       _id:           "",
       customer_id:   "",
+      customer_name: "",
       description:   "",
       address:       "",
       status:        "",
@@ -60,8 +63,15 @@ class JobsList extends PureComponent  {
     )}
 
     let jobsList = jobs.map ( job => {
-      job.customer_name = Customers.findOne({_id: job.customer_id}).name
-      job.hide = !condition(testo, job) 
+      try {
+        job.customer_name = Customers.findOne({_id: job.customer_id}).name
+        Jobs.upsert({_id: job._id}, {$set: {customer_name: job.customer_name}}) 
+        job.customerNameError = false
+      } catch(e) {
+        job.customer_name = job.customer_name 
+        job.customerNameError = true
+      }
+      job.hide = !condition(testo, job)
       return job
     })
 
@@ -70,13 +80,26 @@ class JobsList extends PureComponent  {
     this.setState ({ count: count    })
   }
 
+
+  renderCustomerName = (error, name) => {
+    if (error) {
+      var style = { color: 'red' } 
+      return(
+        <TableColumn style={style}>
+            <FontIcon error>error</FontIcon> {name} 
+        </TableColumn>)
+    } else { 
+      return(<TableColumn>{name}</TableColumn>)      
+    }
+  }
+
   renderJobs = () => {
 
     return this.state.jobs.map ( (job) => {
       if (!job.hide) {
           return ( 
             <TableRow key={job._id}>
-              <TableColumn>{job.customer_name}</TableColumn>
+              {this.renderCustomerName(job.customerNameError, job.customer_name)}
               <TableColumn grow>{job.description}</TableColumn>
               <TableColumn>{job.address}</TableColumn>
               <TableColumn>{job.status}</TableColumn>
@@ -134,11 +157,12 @@ class JobsList extends PureComponent  {
         _id: job._id
       },
       {
-        customer_id: job.customer_id,
-        description: job.description,
-        address:     job.address,
-        status:      job.status,
-        color:       job.color,
+        customer_id:   job.customer_id,
+        customer_name: job.customer_name,
+        description:   job.description,
+        address:       job.address,
+        status:        job.status,
+        color:         job.color,
       },
       {
         upsert: true
@@ -155,26 +179,28 @@ class JobsList extends PureComponent  {
 
   hideAddDialog    = () => 
     this.setState ({ 
-      _id:        "",
-      customer_id:"",
-      description:"",
-      address:    "",
-      status:     "",
-      color:      "",
-      addVisible: false
+      _id:          "",
+      customer_id:  "",
+      customer_name:"",
+      description:  "",
+      address:      "",
+      status:       "",
+      color:        "",
+      addVisible:   false
   })    
 
   showEditDialog    = () => {
     let selectedJob = this.state.jobs.filter(job => job.selected)[0]
 
     this.setState ({ 
-      _id:        selectedJob._id,
-      customer_id:selectedJob.customer_id,
-      description:selectedJob.description,
-      address:    selectedJob.address,
-      status:     selectedJob.status,
-      color:      selectedJob.color,
-      addVisible: true
+      _id:          selectedJob._id,
+      customer_id:  selectedJob.customer_id,
+      customer_name:selectedJob.customer_name,
+      description:  selectedJob.description,
+      address:      selectedJob.address,
+      status:       selectedJob.status,
+      color:        selectedJob.color,
+      addVisible:   true
     })
   }
   
@@ -212,16 +238,17 @@ class JobsList extends PureComponent  {
               visible = {this.state.dialogVisible}
             />
             <AddDialog
-              onAdd      = {this.add}
-              onHide     = {this.hideAddDialog}
-              visible    = {this.state.addVisible}
-              _id        = {this.state._id}
-              customer_id= {this.state.customer_id}
-              description= {this.state.description}
-              address    = {this.state.address}
-              status     = {this.state.status}
-              color      = {this.state.color}
-              customers  = {this.props.customers}
+              onAdd        = {this.add}
+              onHide       = {this.hideAddDialog}
+              visible      = {this.state.addVisible}
+              _id          = {this.state._id}
+              customer_id  = {this.state.customer_id}
+              customer_name= {this.state.customer_name}
+              description  = {this.state.description}
+              address      = {this.state.address}
+              status       = {this.state.status}
+              color        = {this.state.color}
+              customers    = {this.props.customers}
             />
           </Card>
         </div>
@@ -244,7 +271,7 @@ export default withTracker (() => {
 
   this.state = {
     jobs: Jobs
-      .find({}, { sort: { customer_id: 1 } })
+      .find({}, { sort: {'_id': 1} })
       .fetch(),
     customers: Customers
       .find({}, { sort: { name: 1 } })
